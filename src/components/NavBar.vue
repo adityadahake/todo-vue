@@ -5,9 +5,7 @@ import ThemeToggle from '@/components/ThemeToggle.vue'
 
 <template>
   <nav class="flex items-center">
-    <div class="nav-title text-xl font-black">To Do</div>
-    <RouterLink to="/">Home</RouterLink>
-    <RouterLink to="/about">About</RouterLink>
+    <RouterLink to="/" class="hover:text-primary text-xl font-black">ToDo</RouterLink>
     <ThemeToggle class="ms-auto" />
   </nav>
 </template>
