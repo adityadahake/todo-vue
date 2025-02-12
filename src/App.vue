@@ -24,14 +24,6 @@ import NavBar from '@/components/NavBar.vue'
         <span>Source <i class="pi pi-github !text-xs"></i></span>
       </a>
     </div>
-    <div class="flex gap-0.5">
-      <i class="pi pi-check !text-xs"></i>
-      <i class="pi pi-times !text-xs"></i>
-      <i class="pi pi-delete-left !text-xs"></i>
-      <i class="pi pi-flag !text-xs"></i>
-      <i class="pi pi-flag-fill !text-xs"></i>
-      <i class="pi pi-trash !text-xs"></i>
-    </div>
   </footer>
 </template>
 
