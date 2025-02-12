@@ -7,10 +7,10 @@ import NavBar from '@/components/NavBar.vue'
   <header class="container mx-auto p-3">
     <NavBar />
   </header>
-  <main class="container mx-auto p-3">
+  <main class="container mx-auto grow p-3">
     <RouterView />
   </main>
-  <footer class="text-muted-color container mx-auto mt-auto p-3 text-sm">
+  <footer class="text-muted-color container mx-auto p-3 text-sm">
     <div class="flex gap-1">
       <span>Copyright &copy; {{ new Date().getFullYear() }} To Do</span>
       <RouterLink to="/about" class="ms-auto hover:underline">About</RouterLink>
