@@ -1,14 +1,16 @@
 <template>
-  <h1 class="text-xl font-semibold">My List</h1>
+  <h1 class="text-primary text-xl font-semibold">My List</h1>
   <Divider />
-  <TodoList :todo-items="todoItems" />
+  <TodoList :todo-item-groups="groupedTodos" />
 </template>
 
 <script setup>
+import { ref, computed } from 'vue'
+
 import Divider from 'primevue/divider'
 import TodoList from '@/components/TodoList.vue'
 
-const todoItems = [
+const todoItems = ref([
   {
     id: 1,
     title: 'Schedule dentist appointment',
@@ -45,5 +47,22 @@ const todoItems = [
     flagged: false,
     dueDate: '2025-02-20',
   },
-]
+])
+
+const sortByDueDate = (tasks) => {
+  return tasks.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))
+}
+
+const groupedTodos = computed(() => {
+  const activeTodos = todoItems.value.filter((task) => task.status === 'active')
+
+  return {
+    active: {
+      flagged: sortByDueDate(activeTodos.filter((task) => task.flagged)),
+      unflagged: sortByDueDate(activeTodos.filter((task) => !task.flagged)),
+    },
+    completed: sortByDueDate(todoItems.value.filter((task) => task.status === 'completed')),
+    cancelled: sortByDueDate(todoItems.value.filter((task) => task.status === 'cancelled')),
+  }
+})
 </script>

@@ -1,8 +1,17 @@
 <template>
   <div class="bg-surface-900 flex items-start gap-3 rounded-md p-3 md:w-3xl">
     <!-- Checkbox -->
-    <div>
-      <Checkbox size="small" />
+    <div class="mt-1.5">
+      <div
+        v-show="item.status === 'active'"
+        class="hover:border-primary border-surface-500 flex size-5 cursor-pointer items-center justify-center rounded-md border"
+      ></div>
+      <div
+        v-show="item.status === 'completed'"
+        class="border-primary bg-primary text-surface-900 flex size-5 cursor-pointer items-center justify-center rounded-md border"
+      >
+        <i class="pi pi-check !text-xs"></i>
+      </div>
     </div>
     <!-- Title and due -->
     <div>
@@ -55,7 +64,6 @@
 
 <script setup>
 import Button from 'primevue/button'
-import Checkbox from 'primevue/checkbox'
 
 const { item } = defineProps(['item'])
 </script>
