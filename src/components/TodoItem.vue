@@ -3,10 +3,12 @@
     <!-- Checkbox -->
     <div class="mt-1.5">
       <div
+        @click="handleUpdateStatus('completed')"
         v-show="item.status === 'active'"
         class="hover:border-primary border-surface-500 flex size-5 cursor-pointer items-center justify-center rounded-md border"
       ></div>
       <div
+        @click="handleUpdateStatus('active')"
         v-show="item.status === 'completed'"
         class="border-primary bg-primary text-surface-900 flex size-5 cursor-pointer items-center justify-center rounded-md border"
       >
@@ -27,6 +29,7 @@
         size="small"
         severity="contrast"
         class="!w-fit !px-2 !py-1"
+        @click="toggleFlag(true)"
       />
       <Button
         v-show="item.flagged"
@@ -35,6 +38,7 @@
         size="small"
         severity="warn"
         class="!w-fit !px-2 !py-1"
+        @click="toggleFlag(false)"
       />
       <Button
         v-show="item.status !== 'cancelled'"
@@ -43,6 +47,7 @@
         size="small"
         severity="danger"
         class="!w-fit !px-2 !py-1"
+        @click="handleUpdateStatus('cancelled')"
       />
       <Button
         v-show="item.status === 'cancelled'"
@@ -50,6 +55,7 @@
         text
         size="small"
         class="!w-fit !px-2 !py-1"
+        @click="handleUpdateStatus('active')"
       />
       <Button
         icon="pi pi-trash"
@@ -57,6 +63,7 @@
         size="small"
         severity="secondary"
         class="!w-fit !px-2 !py-1"
+        @click="handleDelete"
       />
     </div>
   </div>
@@ -66,6 +73,18 @@
 import Button from 'primevue/button'
 
 const { item } = defineProps(['item'])
+
+const emit = defineEmits(['update-status', 'toggle-flag', 'delete-todo'])
+
+const handleUpdateStatus = (newStatus) => {
+  emit('update-status', item.id, newStatus)
+}
+const toggleFlag = (newState) => {
+  emit('toggle-flag', item.id, newState)
+}
+const handleDelete = () => {
+  emit('delete-todo', item.id)
+}
 </script>
 
 <style scoped></style>

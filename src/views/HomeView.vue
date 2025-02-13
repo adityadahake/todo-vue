@@ -1,7 +1,12 @@
 <template>
   <h1 class="text-primary text-xl font-semibold">My List</h1>
   <Divider />
-  <TodoList :todo-item-groups="groupedTodos" />
+  <TodoList
+    :todo-item-groups="groupedTodos"
+    @update-status="updateTodoStatus"
+    @toggle-flag="toggleFlag"
+    @delete-todo="deleteTodo"
+  />
 </template>
 
 <script setup>
@@ -65,4 +70,23 @@ const groupedTodos = computed(() => {
     cancelled: sortByDueDate(todoItems.value.filter((task) => task.status === 'cancelled')),
   }
 })
+
+const updateTodoStatus = (taskId, newStatus) => {
+  const task = todoItems.value.find((t) => t.id === taskId)
+  if (task) {
+    task.status = newStatus
+  }
+}
+const toggleFlag = (taskId, newState) => {
+  const task = todoItems.value.find((t) => t.id === taskId)
+  if (task) {
+    task.flagged = newState
+  }
+}
+const deleteTodo = (taskId) => {
+  const taskIndex = todoItems.value.findIndex((task) => task.id === taskId)
+  if (taskIndex !== -1) {
+    todoItems.value.splice(taskIndex, 1)
+  }
+}
 </script>
