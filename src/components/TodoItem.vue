@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-surface-900 flex items-start gap-3 rounded-md p-3 md:w-3xl">
+  <div class="bg-surface-900 text-primary-100 flex items-start gap-3 rounded-md p-3 md:w-3xl">
     <!-- Checkbox -->
     <div class="mt-1.5">
       <div
@@ -27,7 +27,7 @@
         icon="pi pi-flag"
         text
         size="small"
-        severity="contrast"
+        severity="warn"
         class="!w-fit !px-2 !py-1"
         @click="toggleFlag(true)"
       />
