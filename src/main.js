@@ -8,6 +8,11 @@ import App from './App.vue'
 import router from './router'
 import { primevueConfig } from './plugins/primevue'
 
+import { Amplify } from 'aws-amplify'
+import { amplifyConfig } from '@/config/amplifyConfig'
+
+Amplify.configure(amplifyConfig)
+
 const app = createApp(App)
 
 app.use(router)
