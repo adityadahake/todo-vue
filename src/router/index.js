@@ -7,11 +7,8 @@ import AboutView from '../views/AboutView.vue'
 
 const guard = async (to) => {
   const session = await fetchAuthSession()
-  if (!session.tokens && to.name !== 'login') {
+  if (!session.tokens && to.name !== 'login' && to.name !== 'confirm') {
     return { name: 'login' }
-  }
-  if (session.tokens && to.name === 'login') {
-    return { name: 'home' }
   }
 }
 
@@ -29,6 +26,14 @@ const router = createRouter({
     {
       path: '/login',
       name: 'login',
+      component: LoginView,
+      beforeEnter: async (to) => {
+        return await guard(to)
+      },
+    },
+    {
+      path: '/confirm',
+      name: 'confirm',
       component: LoginView,
       beforeEnter: async (to) => {
         return await guard(to)
