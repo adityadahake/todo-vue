@@ -1,5 +1,5 @@
 <template>
-  <h1 class="text-primary text-xl font-semibold">My List</h1>
+  <h1 class="text-primary text-xl font-semibold">{{ userName && `${userName}'s List` }}</h1>
   <Divider />
   <TodoList
     :todo-item-groups="groupedTodos"
@@ -11,9 +11,19 @@
 
 <script setup>
 import { ref, computed } from 'vue'
+import { fetchUserAttributes } from 'aws-amplify/auth'
 
 import Divider from 'primevue/divider'
 import TodoList from '@/components/TodoList.vue'
+
+const userName = ref(undefined)
+fetchUserAttributes()
+  .then((user) => {
+    userName.value = user.name
+  })
+  .catch((err) => {
+    console.log(err)
+  })
 
 const todoItems = ref([
   {
