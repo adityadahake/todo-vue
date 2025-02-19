@@ -11,8 +11,8 @@
             <TabPanel value="0" class="flex h-full items-center justify-center">
               <LoginForm />
             </TabPanel>
-            <TabPanel value="1">
-              <div>Register Form</div>
+            <TabPanel value="1" class="flex h-full items-center justify-center">
+              <RegisterForm />
             </TabPanel>
           </TabPanels>
         </Tabs>
@@ -30,4 +30,5 @@ import TabPanels from 'primevue/tabpanels'
 import TabPanel from 'primevue/tabpanel'
 
 import LoginForm from '@/components/LoginForm.vue'
+import RegisterForm from '@/components/RegisterForm.vue'
 </script>

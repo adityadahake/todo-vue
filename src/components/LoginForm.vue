@@ -24,7 +24,7 @@
           </Message>
         </section>
       </FormField>
-      <Button :disabled="disableLogin" type="submit" label="Login" />
+      <Button :disabled="disableSubmitButton" type="submit" label="Login" />
     </Form>
   </div>
 </template>
@@ -45,7 +45,7 @@ import Button from 'primevue/button'
 import { Form, FormField } from '@primevue/forms'
 
 // const toast = useToast()
-const disableLogin = ref(false)
+const disableSubmitButton = ref(false)
 const invalidLogin = ref(null)
 
 const resolver = zodResolver(
@@ -59,7 +59,7 @@ const resolver = zodResolver(
 )
 
 const onFormSubmit = async ({ valid, values }) => {
-  disableLogin.value = true
+  disableSubmitButton.value = true
   if (valid) {
     // toast.add({ severity: 'success', summary: 'Form is submitted.', life: 3000 });
     try {
@@ -67,19 +67,18 @@ const onFormSubmit = async ({ valid, values }) => {
         username: values.email,
         password: values.password,
       })
-      // TODO:
-      // - Handle Confirm Sign up ==> nextStep.signInStep: "CONFIRM_SIGN_UP"
       if (nextStep.signInStep === 'DONE') {
-        disableLogin.value = false
+        disableSubmitButton.value = false
         router.push('/')
       }
     } catch (error) {
-      // - Handle Incorrect Username or Password ==> NotAuthorizedException: Incorrect username or password.
       if (error.name === 'NotAuthorizedException') {
         invalidLogin.value = { message: error.message }
-        disableLogin.value = false
+        disableSubmitButton.value = false
       }
     }
+  } else {
+    disableSubmitButton.value = false
   }
 }
 </script>
