@@ -1,5 +1,8 @@
 <template>
-  <div class="card flex justify-center">
+  <div class="card flex flex-col items-center justify-center gap-3">
+    <Message v-if="invalidLogin" severity="error" size="small" variant="simple">
+      {{ invalidLogin.message }}
+    </Message>
     <Form :resolver @submit="onFormSubmit" class="flex w-full flex-col gap-4 sm:w-56">
       <FormField
         v-slot="$field"
@@ -43,6 +46,7 @@ import { Form, FormField } from '@primevue/forms'
 
 // const toast = useToast()
 const disableLogin = ref(false)
+const invalidLogin = ref(null)
 
 const resolver = zodResolver(
   z.object({
@@ -64,15 +68,17 @@ const onFormSubmit = async ({ valid, values }) => {
         password: values.password,
       })
       // TODO:
-      // - Handle Incorrect Username or Password ==> NotAuthorizedException: Incorrect username or password.
       // - Handle Confirm Sign up ==> nextStep.signInStep: "CONFIRM_SIGN_UP"
-      // - Handle Successful login ==> nextStep.signInStep: "DONE"
       if (nextStep.signInStep === 'DONE') {
         disableLogin.value = false
         router.push('/')
       }
     } catch (error) {
-      console.log(error)
+      // - Handle Incorrect Username or Password ==> NotAuthorizedException: Incorrect username or password.
+      if (error.name === 'NotAuthorizedException') {
+        invalidLogin.value = { message: error.message }
+        disableLogin.value = false
+      }
     }
   }
 }
