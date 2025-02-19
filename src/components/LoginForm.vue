@@ -21,19 +21,19 @@
           </Message>
         </section>
       </FormField>
-      <Button type="submit" label="Login" />
+      <Button :disabled="disableLogin" type="submit" label="Login" />
     </Form>
   </div>
 </template>
 
 <script setup>
+import { ref } from 'vue'
+import { signIn } from 'aws-amplify/auth'
 import { zodResolver } from '@primevue/forms/resolvers/zod'
 import { z } from 'zod'
 // import { useToast } from 'primevue/usetoast'
 
-// import { Amplify } from 'aws-amplify'
-import { signIn } from 'aws-amplify/auth'
-
+import router from '@/router'
 import InputText from 'primevue/inputtext'
 import Message from 'primevue/message'
 import Password from 'primevue/password'
@@ -42,6 +42,7 @@ import Button from 'primevue/button'
 import { Form, FormField } from '@primevue/forms'
 
 // const toast = useToast()
+const disableLogin = ref(false)
 
 const resolver = zodResolver(
   z.object({
@@ -54,20 +55,22 @@ const resolver = zodResolver(
 )
 
 const onFormSubmit = async ({ valid, values }) => {
+  disableLogin.value = true
   if (valid) {
     // toast.add({ severity: 'success', summary: 'Form is submitted.', life: 3000 });
-    console.log(values)
     try {
-      const { nextStep, isSignedIn } = await signIn({
+      const { nextStep } = await signIn({
         username: values.email,
         password: values.password,
       })
-      console.log(nextStep)
       // TODO:
       // - Handle Incorrect Username or Password ==> NotAuthorizedException: Incorrect username or password.
       // - Handle Confirm Sign up ==> nextStep.signInStep: "CONFIRM_SIGN_UP"
       // - Handle Successful login ==> nextStep.signInStep: "DONE"
-      console.log(isSignedIn)
+      if (nextStep.signInStep === 'DONE') {
+        disableLogin.value = false
+        router.push('/')
+      }
     } catch (error) {
       console.log(error)
     }

@@ -5,6 +5,16 @@ import LoginView from '../views/LoginView.vue'
 import HomeView from '../views/HomeView.vue'
 import AboutView from '../views/AboutView.vue'
 
+const guard = async (to) => {
+  const session = await fetchAuthSession()
+  if (!session.tokens && to.name !== 'login') {
+    return { name: 'login' }
+  }
+  if (session.tokens && to.name === 'login') {
+    return { name: 'home' }
+  }
+}
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -13,16 +23,16 @@ const router = createRouter({
       name: 'home',
       component: HomeView,
       beforeEnter: async (to) => {
-        const session = await fetchAuthSession()
-        if (!session.tokens && to.name !== 'login') {
-          return { name: 'login' }
-        }
+        return await guard(to)
       },
     },
     {
       path: '/login',
       name: 'login',
       component: LoginView,
+      beforeEnter: async (to) => {
+        return await guard(to)
+      },
     },
     {
       path: '/about',
